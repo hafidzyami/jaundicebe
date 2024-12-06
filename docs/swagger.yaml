@@ -1,0 +1,510 @@
+definitions:
+  model.ArticleCreateOrUpdate:
+    properties:
+      description:
+        type: string
+      link:
+        type: string
+      title:
+        type: string
+    required:
+    - description
+    - link
+    - title
+    type: object
+  model.ChangePassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+    required:
+    - new_password
+    - old_password
+    type: object
+  model.GeneralResponse:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  model.HospitalCreateOrUpdate:
+    properties:
+      city:
+        type: string
+      contact:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      province:
+        type: string
+    required:
+    - city
+    - contact
+    - image_url
+    - name
+    - province
+    type: object
+  model.UserCreateOrUpdate:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/api/article:
+    get:
+      description: Get a list of all articles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get All Articles
+      tags:
+      - Articles
+    post:
+      consumes:
+      - application/json
+      description: Create a new article
+      parameters:
+      - description: Article Data
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/model.ArticleCreateOrUpdate'
+      - default: Bearer <JWT_TOKEN>
+        description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Create Article
+      tags:
+      - Articles
+  /v1/api/article/{id}:
+    delete:
+      description: Delete an article by ID
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <JWT_TOKEN>
+        description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Delete Article
+      tags:
+      - Articles
+    get:
+      consumes:
+      - application/json
+      description: Get article details by its ID
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Article by ID
+      tags:
+      - Articles
+    put:
+      consumes:
+      - application/json
+      description: Update an existing article
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Article Data
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/model.ArticleCreateOrUpdate'
+      - default: Bearer <JWT_TOKEN>
+        description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Update Article
+      tags:
+      - Articles
+  /v1/api/hospital:
+    get:
+      description: Get a list of all Hospitals
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get All Hospitals
+      tags:
+      - Hospitals
+    post:
+      consumes:
+      - application/json
+      description: Create a new hospital
+      parameters:
+      - description: hospital Data
+        in: body
+        name: hospital
+        required: true
+        schema:
+          $ref: '#/definitions/model.HospitalCreateOrUpdate'
+      - default: Bearer <JWT_TOKEN>
+        description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Create hospital
+      tags:
+      - Hospitals
+  /v1/api/hospital/{id}:
+    delete:
+      description: Delete an hospital by ID
+      parameters:
+      - description: hospital ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <JWT_TOKEN>
+        description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Delete hospital
+      tags:
+      - Hospitals
+    get:
+      consumes:
+      - application/json
+      description: Get hospital details by its ID
+      parameters:
+      - description: hospital ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get hospital by ID
+      tags:
+      - Hospitals
+    put:
+      consumes:
+      - application/json
+      description: Update an existing hospital
+      parameters:
+      - description: hospital ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated hospital Data
+        in: body
+        name: hospital
+        required: true
+        schema:
+          $ref: '#/definitions/model.HospitalCreateOrUpdate'
+      - default: Bearer <JWT_TOKEN>
+        description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Update hospital
+      tags:
+      - Hospitals
+  /v1/auth/change-password:
+    put:
+      consumes:
+      - application/json
+      description: Change user's password
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.ChangePassword'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Change Password
+      tags:
+      - Users
+  /v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserCreateOrUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login User
+      tags:
+      - Users
+  /v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserCreateOrUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create User
+      tags:
+      - Users
+swagger: "2.0"
